@@ -71,7 +71,7 @@ node('maven') {
 			sh "git push origin master"
 			sh "git tag ${releaseTag}"
 			sh "git push origin ${releaseTag}"
-		} 
+		}
 	}	
 
 	stage("promote to production") {
