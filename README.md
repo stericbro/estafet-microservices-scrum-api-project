@@ -3,9 +3,9 @@ Microservices api for "projects" within that scrum demo application.
 ## What is this?
 This application is a microservice for managing project records within a scrum application. It is one of 8 microservices that form a composition for the scrum micro service demo application.
 
-Each microservice has it's own git repository, but there is a master git repository that contains links to all of the repositories [here](https://github.com/Estafet-LTD/estafet-microservices-scrum).
+Each microservice has it's own git repository, but there is a master git repository that contains links to all of the repositories [here](https://github.com/stericbro/estafet-microservices-scrum).
 ## Getting Started
-You can find a detailed explanation of how to install this (and other microservices) [here](https://github.com/Estafet-LTD/estafet-microservices-scrum#getting-started).
+You can find a detailed explanation of how to install this (and other microservices) [here](https://github.com/stericbro/estafet-microservices-scrum#getting-started).
 ## API Interface
 
 ### Messaging
