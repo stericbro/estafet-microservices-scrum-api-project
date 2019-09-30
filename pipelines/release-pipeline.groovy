@@ -33,7 +33,7 @@ node('maven') {
 	stage("checkout") {
 		git branch: "master", url: "https://${username()}:${password()}@github.com/stericbro/estafet-microservices-scrum-api-project"
 	}
-	
+
 	stage("deploy container") {
 		sh "oc get is -o json -n ${project} > is.json"
 		def is = readFile('is.json')
@@ -49,12 +49,12 @@ node('maven') {
 			openshiftCreateResource namespace:project, jsonyaml:serviceTemplate
 		}
 		openshiftVerifyDeployment namespace: project, depCfg: microservice, replicaCount:"1", verifyReplicaCount: "true", waitTime: "600000"
-	}	
-	
-	stage("trigger acceptance tests") {
-		sh "oc start-build qa-pipeline -n cicd"	
 	}
-	
+
+	stage("trigger acceptance tests") {
+		sh "oc start-build qa-pipeline -n cicd"
+	}
+
 	stage("increment version") {
 		def pom = readFile('pom.xml');
 		def matcher = new XmlSlurper().parseText(pom).version =~ /(\d+\.\d+\.)(\d+)(\-SNAPSHOT)/
@@ -62,7 +62,7 @@ node('maven') {
 		releaseVersion = "${matcher[0][1]}${matcher[0][2]}"
 		releaseTag = "v${releaseVersion}"
 	}
-	
+
 	stage("perform release") {
         sh "git config --global user.email \"jenkins@estafet.com\""
         sh "git config --global user.name \"jenkins\""
@@ -72,12 +72,12 @@ node('maven') {
 			sh "git tag ${releaseTag}"
 			sh "git push origin ${releaseTag}"
 		}
-	}	
+	}
 
 	stage("promote to production") {
 		openshiftTag namespace: project, srcStream: microservice, srcTag: 'PrepareForTesting', destinationNamespace: 'prod', destinationStream: microservice, destinationTag: releaseVersion
 		openshiftTag namespace: project, srcStream: microservice, srcTag: 'PrepareForTesting', destinationNamespace: 'prod', destinationStream: microservice, destinationTag: 'latest'
-	}	
-	
+	}
+
 }
 

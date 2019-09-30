@@ -58,7 +58,7 @@ public class Project {
 	public void setSprintLengthDays(Integer sprintLengthDays) {
 		this.sprintLengthDays = sprintLengthDays;
 	}
-	
+
 	public String toJSON() {
 		try {
 			return new ObjectMapper().writeValueAsString(this);

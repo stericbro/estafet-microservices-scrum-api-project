@@ -16,10 +16,10 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private NewProjectProducer newProjectProducer;
-	
+
 	/* (non-Javadoc)
 	 * @see com.estafet.microservices.api.project.dao.ProjectDAO#getProject(int)
 	 */
@@ -27,7 +27,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public Project getProject(int projectId) {
 		return entityManager.find(Project.class, new Integer(projectId));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.estafet.microservices.api.project.dao.ProjectDAO#getProjects()
 	 */
@@ -36,7 +36,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	public List<Project> getProjects() {
 		return entityManager.createQuery("Select p from Project p").getResultList();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.estafet.microservices.api.project.dao.ProjectDAO#deleteProject(int)
 	 */
@@ -45,7 +45,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 		Project project = getProject(projectId);
 		entityManager.remove(project);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.estafet.microservices.api.project.dao.ProjectDAO#updateProject(com.estafet.microservices.api.project.model.Project)
 	 */
@@ -54,7 +54,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 		entityManager.merge(project);
 		return project;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.estafet.microservices.api.project.dao.ProjectDAO#createProject(com.estafet.microservices.api.project.model.Project)
 	 */
@@ -64,5 +64,5 @@ public class ProjectDAOImpl implements ProjectDAO {
 		newProjectProducer.sendMessage(project);
 		return project;
 	}
-	
+
 }

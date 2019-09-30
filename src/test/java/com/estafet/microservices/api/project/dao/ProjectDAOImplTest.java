@@ -24,10 +24,10 @@ public class ProjectDAOImplTest {
 
 	@InjectMocks
 	ProjectDAO projectDAO = new ProjectDAOImpl();
-	
+
 	@Mock
 	NewProjectProducer newProjectProducer;
-	
+
 	@Mock
 	EntityManager entityManager;
 

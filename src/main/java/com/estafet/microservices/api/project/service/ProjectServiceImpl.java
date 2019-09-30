@@ -14,7 +14,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ProjectDAO projectDAO;
-	
+
 	/* (non-Javadoc)
 	 * @see com.estafet.microservices.api.project.service.ProjectService#getProjects()
 	 */

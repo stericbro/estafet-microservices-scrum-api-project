@@ -79,14 +79,14 @@ public class ITProjectTest {
 				.body("title", equalTo("My Project #1"))
 			.extract()
 				.path("id");
-		
+
 		get("/project/" + id).then()
 			.statusCode(HttpURLConnection.HTTP_OK)
 			.body("id", is(id))
 			.body("title", is("My Project #1"))
 			.body("noSprints", is(5))
 			.body("sprintLengthDays", is(5));
-		
+
 		Project project = new ObjectMapper().readValue(topic.consumeMessage(), Project.class);
 		assertThat(project.getId(), is(id));
 		assertThat(project.getTitle(), is("My Project #1"));

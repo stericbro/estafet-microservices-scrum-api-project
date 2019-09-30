@@ -23,39 +23,39 @@ public class ProjectController {
 
 	@Autowired
 	private Tracer tracer;
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@GetMapping("/api")
 	public Project projectAPI() {
 		tracer.activeSpan().setTag("api", true);
 		return Project.getAPI();
 	}
-	
+
 	@GetMapping("/project/{id}")
 	public Project getProject(@PathVariable int id) {
 		tracer.activeSpan().setTag("api", false);
 		return projectService.getProject(id);
 	}
-	
+
 	@GetMapping(value = "/projects")
 	public List<Project> getProjects() {
 		tracer.activeSpan().setTag("api", false);
 		return projectService.getProjects();
 	}
-	
+
 	@PostMapping("/project")
 	public ResponseEntity createProject(@RequestBody Project project) {
 		tracer.activeSpan().setTag("api", false);
 		return new ResponseEntity(projectService.createProject(project), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/project/{id}")
 	public ResponseEntity deleteProject(@PathVariable int id) {
 		tracer.activeSpan().setTag("api", false);
 		projectService.deleteProject(id);
 		return new ResponseEntity(id, HttpStatus.OK);
 	}
-	
+
 }

@@ -32,12 +32,12 @@ public class ProjectControllerTest {
 
 	@Mock
 	Tracer tracer;
-	
+
 	@Before
 	public void before() {
 		when(tracer.activeSpan()).thenReturn(mock(ActiveSpan.class));
 	}
-	
+
 	@Test
 	public void testProjectAPI() {
 		assertEquals(controller.projectAPI().getId().intValue(), 1);
