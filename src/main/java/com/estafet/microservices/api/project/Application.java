@@ -30,24 +30,24 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
 @EnableDiscoveryClient
 public class Application extends SpringBootServletInitializer {
 
-	public static void main(final String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(final String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-	@Bean
-	public io.opentracing.Tracer jaegerTracer() {
-		return new com.uber.jaeger.Configuration("project-api",
-				com.uber.jaeger.Configuration.SamplerConfiguration.fromEnv(),
-				com.uber.jaeger.Configuration.ReporterConfiguration.fromEnv())
-				.getTracer();
-	}
+    @Bean
+    public io.opentracing.Tracer jaegerTracer() {
+        return new com.uber.jaeger.Configuration("project-api",
+                com.uber.jaeger.Configuration.SamplerConfiguration.fromEnv(),
+                com.uber.jaeger.Configuration.ReporterConfiguration.fromEnv())
+                .getTracer();
+    }
 
-	@Bean
-	public JmsListenerContainerFactory<DefaultMessageListenerContainer> myFactory(final ConnectionFactory connectionFactory,
-			final DefaultJmsListenerContainerFactoryConfigurer configurer) {
-		final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		configurer.configure(factory, connectionFactory);
-		return factory;
-	}
+    @Bean
+    public JmsListenerContainerFactory<DefaultMessageListenerContainer> myFactory(final ConnectionFactory connectionFactory,
+            final DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        configurer.configure(factory, connectionFactory);
+        return factory;
+    }
 
 }

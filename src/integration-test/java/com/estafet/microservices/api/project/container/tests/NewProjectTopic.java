@@ -13,24 +13,24 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class NewProjectTopic {
 
-	Connection connection;
-	MessageConsumer messageConsumer;
+    Connection connection;
+    MessageConsumer messageConsumer;
 
-	public NewProjectTopic() throws JMSException {
-		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(System.getenv("JBOSS_A_MQ_BROKER_URL"));
-		connection = connectionFactory.createConnection(System.getenv("JBOSS_A_MQ_BROKER_USER"), System.getenv("JBOSS_A_MQ_BROKER_PASSWORD"));
-		Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		Topic topic = session.createTopic("new.project.topic");
-		messageConsumer = session.createConsumer(topic);
-		connection.start();
-	}
+    public NewProjectTopic() throws JMSException {
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(System.getenv("JBOSS_A_MQ_BROKER_URL"));
+        connection = connectionFactory.createConnection(System.getenv("JBOSS_A_MQ_BROKER_USER"), System.getenv("JBOSS_A_MQ_BROKER_PASSWORD"));
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic("new.project.topic");
+        messageConsumer = session.createConsumer(topic);
+        connection.start();
+    }
 
-	public void closeConnection() throws JMSException {
-		connection.close();
-	}
+    public void closeConnection() throws JMSException {
+        connection.close();
+    }
 
-	public String consumeMessage() throws JMSException {
-		Message message = messageConsumer.receive(3000);
-		return ((TextMessage) message).getText();
-	}
+    public String consumeMessage() throws JMSException {
+        Message message = messageConsumer.receive(3000);
+        return ((TextMessage) message).getText();
+    }
 }

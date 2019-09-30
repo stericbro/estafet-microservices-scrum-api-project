@@ -24,57 +24,57 @@ import io.opentracing.Tracer;
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectControllerTest {
 
-	@InjectMocks
-	ProjectController controller = new ProjectController();
+    @InjectMocks
+    ProjectController controller = new ProjectController();
 
-	@Mock
-	ProjectService projectService;
+    @Mock
+    ProjectService projectService;
 
-	@Mock
-	Tracer tracer;
+    @Mock
+    Tracer tracer;
 
-	@Before
-	public void before() {
-		when(tracer.activeSpan()).thenReturn(mock(ActiveSpan.class));
-	}
+    @Before
+    public void before() {
+        when(tracer.activeSpan()).thenReturn(mock(ActiveSpan.class));
+    }
 
-	@Test
-	public void testProjectAPI() {
-		assertEquals(controller.projectAPI().getId().intValue(), 1);
-		assertEquals(controller.projectAPI().getTitle(), "my project");
-	}
+    @Test
+    public void testProjectAPI() {
+        assertEquals(controller.projectAPI().getId().intValue(), 1);
+        assertEquals(controller.projectAPI().getTitle(), "my project");
+    }
 
-	@Test
-	public void testGetProject() {
-		when(projectService.getProject(1)).thenReturn(Project.getAPI());
-		assertEquals(controller.getProject(1).getId().intValue(), 1);
-		assertEquals(controller.projectAPI().getTitle(), "my project");
-	}
+    @Test
+    public void testGetProject() {
+        when(projectService.getProject(1)).thenReturn(Project.getAPI());
+        assertEquals(controller.getProject(1).getId().intValue(), 1);
+        assertEquals(controller.projectAPI().getTitle(), "my project");
+    }
 
-	@Test
-	public void testGetProjects() {
-		List<Project> projects = new ArrayList<Project>();
-		when(projectService.getProjects()).thenReturn(projects);
-		List<Project> result = controller.getProjects();
-		verify(projectService, times(1)).getProjects();
-		assertSame(projects, result);
-	}
+    @Test
+    public void testGetProjects() {
+        List<Project> projects = new ArrayList<Project>();
+        when(projectService.getProjects()).thenReturn(projects);
+        List<Project> result = controller.getProjects();
+        verify(projectService, times(1)).getProjects();
+        assertSame(projects, result);
+    }
 
-	@Test
-	public void testCreateProject() {
-		Project project = Project.getAPI();
-		when(projectService.createProject(project)).thenReturn(project);
-		ResponseEntity result = controller.createProject(project);
-		verify(projectService, times(1)).createProject(project);
-		assertEquals(result.getStatusCode(), HttpStatus.OK);
-		assertSame(result.getBody(), project);
-	}
+    @Test
+    public void testCreateProject() {
+        Project project = Project.getAPI();
+        when(projectService.createProject(project)).thenReturn(project);
+        ResponseEntity result = controller.createProject(project);
+        verify(projectService, times(1)).createProject(project);
+        assertEquals(result.getStatusCode(), HttpStatus.OK);
+        assertSame(result.getBody(), project);
+    }
 
-	@Test
-	public void testDeleteProject() {
-		ResponseEntity result = controller.deleteProject(12);
-		assertEquals(result.getStatusCode(), HttpStatus.OK);
-		verify(projectService, times(1)).deleteProject(12);
-	}
+    @Test
+    public void testDeleteProject() {
+        ResponseEntity result = controller.deleteProject(12);
+        assertEquals(result.getStatusCode(), HttpStatus.OK);
+        verify(projectService, times(1)).deleteProject(12);
+    }
 
 }

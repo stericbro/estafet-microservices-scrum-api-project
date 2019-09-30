@@ -48,7 +48,7 @@ To create a new project
 ```
 POST http://<project-api-uri>/project
 {
-	"title" : "this is my project"
+    "title" : "this is my project"
 }
 ```
 

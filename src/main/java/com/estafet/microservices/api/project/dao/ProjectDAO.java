@@ -6,14 +6,14 @@ import com.estafet.microservices.api.project.model.Project;
 
 public interface ProjectDAO {
 
-	Project getProject(int projectId);
+    Project getProject(int projectId);
 
-	List<Project> getProjects();
+    List<Project> getProjects();
 
-	void deleteProject(int projectId);
+    void deleteProject(int projectId);
 
-	Project updateProject(Project project);
+    Project updateProject(Project project);
 
-	Project createProject(Project project);
+    Project createProject(Project project);
 
 }

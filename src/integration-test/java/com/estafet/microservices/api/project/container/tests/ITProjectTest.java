@@ -29,69 +29,69 @@ import io.restassured.http.ContentType;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class })
 public class ITProjectTest {
 
-	NewProjectTopic topic;
+    NewProjectTopic topic;
 
-	@Before
-	public void before() throws Exception {
-		RestAssured.baseURI = System.getenv("PROJECT_API_SERVICE_URI");
-		topic = new NewProjectTopic();
-	}
+    @Before
+    public void before() throws Exception {
+        RestAssured.baseURI = System.getenv("PROJECT_API_SERVICE_URI");
+        topic = new NewProjectTopic();
+    }
 
-	@After
-	public void after() throws Exception {
-		topic.closeConnection();
-	}
+    @After
+    public void after() throws Exception {
+        topic.closeConnection();
+    }
 
-	@Test
-	public void testProjectAPI() {
-		get("/api").then()
-			.body("id", equalTo(1))
-			.body("title", equalTo("my project"));
-	}
+    @Test
+    public void testProjectAPI() {
+        get("/api").then()
+            .body("id", equalTo(1))
+            .body("title", equalTo("my project"));
+    }
 
-	@Test
-	@DatabaseSetup("ITProjectTest-data.xml")
-	public void testGetProject() {
-		get("/project/2000").then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", equalTo(2000))
-			.body("title", equalTo("My Project #7082"))
-			.body("noSprints", equalTo(5));
-	}
+    @Test
+    @DatabaseSetup("ITProjectTest-data.xml")
+    public void testGetProject() {
+        get("/project/2000").then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", equalTo(2000))
+            .body("title", equalTo("My Project #7082"))
+            .body("noSprints", equalTo(5));
+    }
 
-	@Test
-	@DatabaseSetup("ITProjectTest-data.xml")
-	public void testGetProjects() {
-		get("/projects").then()
-			.body("id", hasItems(1000, 2000));
-	}
+    @Test
+    @DatabaseSetup("ITProjectTest-data.xml")
+    public void testGetProjects() {
+        get("/projects").then()
+            .body("id", hasItems(1000, 2000));
+    }
 
-	@Test
-	@DatabaseSetup("ITProjectTest-data.xml")
-	public void testCreateProject() throws Exception {
-		Integer id =
-			given().contentType(ContentType.JSON)
-				.body("{\"title\":\"My Project #1\",\"noSprints\":5,\"sprintLengthDays\":5}")
-			.when()
-				.post("/project")
-			.then()
-				.statusCode(HttpURLConnection.HTTP_OK)
-				.body("title", equalTo("My Project #1"))
-			.extract()
-				.path("id");
+    @Test
+    @DatabaseSetup("ITProjectTest-data.xml")
+    public void testCreateProject() throws Exception {
+        Integer id =
+            given().contentType(ContentType.JSON)
+                .body("{\"title\":\"My Project #1\",\"noSprints\":5,\"sprintLengthDays\":5}")
+            .when()
+                .post("/project")
+            .then()
+                .statusCode(HttpURLConnection.HTTP_OK)
+                .body("title", equalTo("My Project #1"))
+            .extract()
+                .path("id");
 
-		get("/project/" + id).then()
-			.statusCode(HttpURLConnection.HTTP_OK)
-			.body("id", is(id))
-			.body("title", is("My Project #1"))
-			.body("noSprints", is(5))
-			.body("sprintLengthDays", is(5));
+        get("/project/" + id).then()
+            .statusCode(HttpURLConnection.HTTP_OK)
+            .body("id", is(id))
+            .body("title", is("My Project #1"))
+            .body("noSprints", is(5))
+            .body("sprintLengthDays", is(5));
 
-		Project project = new ObjectMapper().readValue(topic.consumeMessage(), Project.class);
-		assertThat(project.getId(), is(id));
-		assertThat(project.getTitle(), is("My Project #1"));
-		assertThat(project.getNoSprints(), is(5));
-		assertThat(project.getSprintLengthDays(), is(5));
-	}
+        Project project = new ObjectMapper().readValue(topic.consumeMessage(), Project.class);
+        assertThat(project.getId(), is(id));
+        assertThat(project.getTitle(), is("My Project #1"));
+        assertThat(project.getNoSprints(), is(5));
+        assertThat(project.getSprintLengthDays(), is(5));
+    }
 
 }
